@@ -14,6 +14,7 @@ KIT_API_BASE_URL = "https://api.kit.com/v4"
 DEFAULT_KIT_BROADCAST_STATE_PATH = "generated/kit-broadcast-drafts.json"
 DEFAULT_HOLDING_TAG = "SYSTEM - IFYL Daily Audio Drafts - Do Not Send"
 REQUEST_TIMEOUT_SECONDS = 30
+PLACEHOLDER_LISTEN_TEXT = "[ADD LISTEN URL]"
 
 
 @dataclass(frozen=True)
@@ -117,6 +118,7 @@ def build_preview_text(body: str, limit: int = 140) -> str:
 
 
 def build_broadcast_payload(draft: KitDraftEmail, holding_tag_id: int | None = None) -> dict:
+    validate_ready_for_kit_apply(draft)
     payload: dict = {
         "content": body_to_html(draft.body),
         "description": f"IFYL daily audio draft: {draft.title}",
@@ -137,6 +139,13 @@ def build_broadcast_payload(draft: KitDraftEmail, holding_tag_id: int | None = N
             }
         ]
     return payload
+
+
+def validate_ready_for_kit_apply(draft: KitDraftEmail) -> None:
+    if PLACEHOLDER_LISTEN_TEXT in draft.body:
+        raise ValueError(f"Draft still needs a real listen URL before Kit import: {draft.draft_path}")
+    if not re.match(r"^https?://", draft.listen_url):
+        raise ValueError(f"Draft listen_url must be a real http(s) URL before Kit import: {draft.draft_path}")
 
 
 def ensure_holding_tag(api_key: str, tag_name: str = DEFAULT_HOLDING_TAG) -> int:
@@ -175,7 +184,17 @@ def sync_kit_broadcast_drafts(
     force: bool = False,
 ) -> list[KitBroadcastResult]:
     state = load_kit_broadcast_state(state_path)
-    holding_tag_id = ensure_holding_tag(api_key, holding_tag_name) if apply else None
+    parsed_drafts: dict[str, KitDraftEmail] = {}
+    for draft_path in draft_paths:
+        key = Path(draft_path).as_posix()
+        if key in state["broadcasts"] and not force:
+            continue
+        draft = parse_kit_draft_markdown(draft_path)
+        if apply:
+            validate_ready_for_kit_apply(draft)
+        parsed_drafts[key] = draft
+
+    holding_tag_id = ensure_holding_tag(api_key, holding_tag_name) if apply and parsed_drafts else None
     results: list[KitBroadcastResult] = []
 
     for draft_path in draft_paths:
@@ -194,7 +213,7 @@ def sync_kit_broadcast_drafts(
             )
             continue
 
-        draft = parse_kit_draft_markdown(draft_path)
+        draft = parsed_drafts[key]
         if not apply:
             results.append(
                 KitBroadcastResult(

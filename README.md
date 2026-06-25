@@ -49,7 +49,7 @@ python -m ifyl_daily_audio_emails.cli kit-sync-drafts
 python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply
 ```
 
-Without `--apply`, the command only previews what would be created. With `--apply`, it creates Kit broadcast drafts using `KIT_API_KEY` or `CONVERTKIT_API_KEY`. Drafts are assigned to the safety tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`, remain unscheduled, and are not published as web posts.
+Without `--apply`, the command only previews what would be created. With `--apply`, it creates Kit broadcast drafts using `KIT_API_KEY` or `CONVERTKIT_API_KEY`. Drafts are assigned to the safety tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`, remain unscheduled, and are not published as web posts. The apply step refuses drafts that still have a missing listen URL.
 
 ## GitHub Actions
 

@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from ifyl_daily_audio_emails.kit_broadcast import (
     body_to_html,
     build_broadcast_payload,
@@ -35,3 +37,16 @@ def test_body_to_html_preserves_paragraphs_and_links():
     assert "<p>Hi there,</p>" in html
     assert '<a href="https://tesh.com/listen/today">https://tesh.com/listen/today</a>' in html
     assert "<p>John</p>" in html
+
+
+def test_broadcast_payload_rejects_missing_listen_url(tmp_path: Path):
+    result = create_draft_from_text(
+        title="Needs a listen link",
+        transcript_text="John Tesh here. This audio still needs a hosted listen link.",
+        listen_url="",
+        output_dir=tmp_path,
+    )
+    draft = parse_kit_draft_markdown(result.draft_path)
+
+    with pytest.raises(ValueError, match="real listen URL"):
+        build_broadcast_payload(draft, holding_tag_id=123)

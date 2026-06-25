@@ -76,6 +76,7 @@ Safety defaults:
 - `send_at` is null, so the broadcast is not scheduled.
 - `public` is false, so the draft is not published as a newsletter web post.
 - The default recipient filter is a holding tag named `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`.
+- The apply step refuses drafts that still have a missing listen URL.
 - John chooses the real list, tag, or segment inside Kit when he is ready to send.
 
 ## Optional Later Automation

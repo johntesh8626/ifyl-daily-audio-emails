@@ -10,11 +10,11 @@ Hi {{ subscriber.first_name | default: "there" }},
 
 John Tesh here.
 
-I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: Morning light can help your body know when to sleep later tonight.
+I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: [short setup generated from the transcript].
 
 Take a minute and listen when you have a quiet moment:
 
-https://tesh.com/listen/better-sleep?utm_source=convertkit&utm_medium=email&utm_campaign=ifyl_daily_audio&utm_content=better_sleep_tonight
+[LISTEN LINK GOES HERE AFTER AUDIO HOSTING IS CONNECTED]
 
 I'll be back tomorrow with another short audio note.
 
@@ -27,3 +27,4 @@ John
 - `public` is false, so it is not published as a web post.
 - The default safety audience is the holding tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`.
 - John chooses the real list/tag/segment when he is ready to send.
+- Do not create Kit drafts until the listen URL points to a real hosted audio page or file.
