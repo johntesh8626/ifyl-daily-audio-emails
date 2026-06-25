@@ -16,5 +16,6 @@ def test_create_draft_from_text_writes_markdown(tmp_path: Path):
     assert result.draft_path.exists()
     text = result.draft_path.read_text(encoding="utf-8")
     assert "**Subject:** Use one better question" in text
-    assert "pending_manual_kit_import" in text
+    assert "ready_for_manual_kit_draft" in text
+    assert "choose_at_send_time" in text
     assert "https://tesh.com/listen/question" in text

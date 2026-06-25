@@ -15,6 +15,7 @@ class Settings:
     dropbox_app_key: str
     dropbox_app_secret: str
     dropbox_refresh_token: str
+    dropbox_root_path: str
     dropbox_shared_link_url: str
     dropbox_include_regex: str
     openai_api_key: str
@@ -51,6 +52,7 @@ def load_settings(*, dotenv_path: str | Path = ".env") -> Settings:
         dropbox_app_key=os.getenv("DROPBOX_APP_KEY", ""),
         dropbox_app_secret=os.getenv("DROPBOX_APP_SECRET", ""),
         dropbox_refresh_token=os.getenv("DROPBOX_REFRESH_TOKEN", ""),
+        dropbox_root_path=os.getenv("DROPBOX_ROOT_PATH", str(defaults.get("dropboxRootPath", ""))),
         dropbox_shared_link_url=os.getenv("DROPBOX_SHARED_LINK_URL", ""),
         dropbox_include_regex=os.getenv(
             "DROPBOX_INCLUDE_REGEX",
@@ -60,7 +62,7 @@ def load_settings(*, dotenv_path: str | Path = ".env") -> Settings:
         openai_transcription_model=os.getenv("OPENAI_TRANSCRIPTION_MODEL", "gpt-4o-transcribe"),
         audio_public_base_url=os.getenv("AUDIO_PUBLIC_BASE_URL", ""),
         default_listen_url=os.getenv("DEFAULT_LISTEN_URL", ""),
-        kit_target_mode=os.getenv("KIT_TARGET_MODE", str(defaults.get("targetMode", "undecided"))),
+        kit_target_mode=os.getenv("KIT_TARGET_MODE", str(defaults.get("targetMode", "draft_queue"))),
     )
 
 

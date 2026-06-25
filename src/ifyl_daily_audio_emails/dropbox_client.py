@@ -5,7 +5,7 @@ import re
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, unquote, urlencode, urlsplit, urlunsplit
 
 import requests
 
@@ -13,6 +13,7 @@ import requests
 TOKEN_URL = "https://api.dropboxapi.com/oauth2/token"
 LIST_FOLDER_URL = "https://api.dropboxapi.com/2/files/list_folder"
 LIST_FOLDER_CONTINUE_URL = "https://api.dropboxapi.com/2/files/list_folder/continue"
+DOWNLOAD_URL = "https://content.dropboxapi.com/2/files/download"
 GET_SHARED_LINK_FILE_URL = "https://content.dropboxapi.com/2/sharing/get_shared_link_file"
 REQUEST_TIMEOUT_SECONDS = 30
 
@@ -44,6 +45,21 @@ def canonicalize_shared_link_url(shared_link_url: str) -> str:
     return urlunsplit((parsed.scheme, parsed.netloc, parsed.path, urlencode({"dl": dl_value}), ""))
 
 
+def normalize_dropbox_root_path(folder_input: str) -> str:
+    normalized = str(folder_input or "").strip()
+    if not normalized:
+        return ""
+
+    parsed = urlsplit(normalized)
+    if "dropbox.com" in parsed.netloc.lower() and parsed.path.startswith("/home"):
+        path = unquote(parsed.path.removeprefix("/home"))
+        return path if path.startswith("/") else f"/{path}"
+
+    if normalized.startswith("/"):
+        return normalized
+    return f"/{normalized}"
+
+
 def refresh_access_token(app_key: str, app_secret: str, refresh_token: str) -> str:
     response = requests.post(
         TOKEN_URL,
@@ -59,6 +75,31 @@ def refresh_access_token(app_key: str, app_secret: str, refresh_token: str) -> s
     if not isinstance(access_token, str) or not access_token:
         raise RuntimeError("Dropbox token refresh succeeded without an access_token.")
     return access_token
+
+
+def list_folder_files(access_token: str, root_path: str) -> list[DropboxFile]:
+    headers = {"Authorization": f"Bearer {access_token}", "Content-Type": "application/json"}
+    files: list[DropboxFile] = []
+    payload = _post_json(
+        LIST_FOLDER_URL,
+        headers=headers,
+        json_body={
+            "path": normalize_dropbox_root_path(root_path),
+            "recursive": True,
+            "include_deleted": False,
+        },
+    )
+    _collect_entries(payload, current_path="", files=files, pending_paths=None)
+
+    while payload.get("has_more"):
+        payload = _post_json(
+            LIST_FOLDER_CONTINUE_URL,
+            headers=headers,
+            json_body={"cursor": payload["cursor"]},
+        )
+        _collect_entries(payload, current_path="", files=files, pending_paths=None)
+
+    return files
 
 
 def list_shared_folder_files(access_token: str, shared_link_url: str) -> list[DropboxFile]:
@@ -149,6 +190,34 @@ def download_file_from_shared_link(
     return target_path
 
 
+def download_file_by_path(
+    access_token: str,
+    dropbox_path: str,
+    local_save_path: str | Path,
+) -> Path:
+    target_path = Path(local_save_path)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Dropbox-API-Arg": json.dumps({"path": dropbox_path}),
+    }
+
+    response = requests.post(
+        DOWNLOAD_URL,
+        headers=headers,
+        stream=True,
+        timeout=REQUEST_TIMEOUT_SECONDS,
+    )
+    if response.status_code >= 400:
+        raise RuntimeError(f"Dropbox download failed ({response.status_code}): {response.text}")
+
+    with target_path.open("wb") as handle:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                handle.write(chunk)
+    return target_path
+
+
 def safe_local_audio_path(file: DropboxFile, download_dir: str | Path = "downloads") -> Path:
     safe_id = re.sub(r"[^A-Za-z0-9._-]+", "_", file.id.replace("id:", "id_", 1)).strip("_")
     safe_name = re.sub(r"[^A-Za-z0-9 ._-]+", "_", file.name).strip()
@@ -171,7 +240,12 @@ def _post_json(url: str, *, headers: dict, json_body: dict, attempts: int = 4) -
     raise RuntimeError("Dropbox API failed after retry exhaustion.")
 
 
-def _collect_entries(payload: dict, current_path: str, files: list[DropboxFile], pending_paths: list[str]) -> None:
+def _collect_entries(
+    payload: dict,
+    current_path: str,
+    files: list[DropboxFile],
+    pending_paths: list[str] | None,
+) -> None:
     for entry in payload.get("entries", []):
         tag = entry.get(".tag")
         name = entry.get("name", "")
@@ -190,5 +264,5 @@ def _collect_entries(payload: dict, current_path: str, files: list[DropboxFile],
                     size=int(entry.get("size", 0)),
                 )
             )
-        elif tag == "folder":
+        elif tag == "folder" and pending_paths is not None:
             pending_paths.append(path_display)

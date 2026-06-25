@@ -6,13 +6,29 @@ Send daily John Tesh voice emails that train the audience to open, listen, and e
 
 ## Source Folder
 
-Use a Dropbox folder named something like:
+Use this Dropbox folder:
 
 ```text
-Intelligence for Your Life emails
+/John Tesh/ifyl-daily-audio-emails
 ```
 
-The pipeline can also match `IFYL emails` or `daily email` by default.
+The Dropbox browser URL John sent maps to that authenticated folder path:
+
+```text
+https://www.dropbox.com/home/John%20Tesh/ifyl-daily-audio-emails
+```
+
+The pipeline also still recognizes folder names like `Intelligence for Your Life emails`, `IFYL emails`, or `daily email`.
+
+## Codex Sidebar Cue
+
+Use the sidebar project named `ifyl-daily-audio-emails`. The command phrase is:
+
+```text
+Run the IFYL daily audio email drafts.
+```
+
+That command means "scan Dropbox for new audio and prepare drafts," not "send an email."
 
 ## Draft Format
 
@@ -22,24 +38,29 @@ Each generated draft contains:
 - ConvertKit-safe body
 - Source audio path
 - Listen URL
-- Target metadata: `undecided`, `broadcast`, or `sequence`
-- Status: `pending_manual_kit_import`
+- Target metadata: `draft_queue`, `broadcast`, or `sequence`
+- Recipient decision: `choose_at_send_time`
+- Status: `ready_for_manual_kit_draft`
 
 ## Kit Publishing
 
 First release uses manual approval:
 
-1. The GitHub Action or local CLI creates a draft in `generated/kit-drafts/`.
-2. Codex reviews the draft with John.
-3. John approves the Kit action.
-4. Codex imports into Kit using the existing Kit workflow.
+1. John asks for a run, or manually starts the GitHub Action.
+2. New files are transcribed and wrapped as drafts in `generated/kit-drafts/`.
+3. `generated/processed-dropbox-files.json` prevents duplicate drafts on the next run.
+4. John chooses which draft to send and which Kit list/destination should receive it.
+5. Codex imports into Kit only after John approves that action.
 
-Do not auto-send to the live daily list until the broadcast-vs-sequence decision is locked and tested.
+Do not auto-send to the live daily list. The system builds draft inventory only.
+
+## Optional Later Automation
+
+After a few manual runs look right, the GitHub Action can add a cron schedule such as `0 */2 * * *` to check Dropbox every two hours. That should stay disabled during the first validation phase.
 
 ## Open Product Decisions
 
-- Broadcast to the existing daily list, evergreen sequence for new subscribers, or both?
 - Where should the audio be hosted for the listen link?
 - Should the email link to an audio landing page or direct audio?
 - Should weekend emails be skipped?
-- Should drafts be reviewed every day or batched weekly?
+- Should drafts be reviewed every day or batched weekly before Kit import?

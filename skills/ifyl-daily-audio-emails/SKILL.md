@@ -5,7 +5,7 @@ description: Prepare daily Intelligence for Your Life email drafts from Dropbox 
 
 # IFYL Daily Audio Emails
 
-Use this skill when John asks to turn daily IFYL Dropbox audio into a Kit/ConvertKit email, create a daily voice email draft, process the `Intelligence for Your Life emails` Dropbox folder, or prepare top-of-funnel daily audio emails.
+Use this skill when John asks to turn daily IFYL Dropbox audio into a Kit/ConvertKit email, create a daily voice email draft, process the `ifyl-daily-audio-emails` Dropbox folder, or prepare top-of-funnel daily audio emails.
 
 ## Repo
 
@@ -26,7 +26,8 @@ https://github.com/johntesh8626/ifyl-daily-audio-emails
 1. Read `AGENTS.md` and `docs/WORKFLOW.md`.
 2. Run or inspect the draft pipeline:
    - Local text test: `python -m ifyl_daily_audio_emails.cli draft ...`
-   - Dropbox run: `python -m ifyl_daily_audio_emails.cli run-once`
+   - Dropbox run for all new files: `python -m ifyl_daily_audio_emails.cli run-pending`
+   - Exact Dropbox file run: `python -m ifyl_daily_audio_emails.cli run-once --dropbox-path <path>`
    - GitHub Action: `Create daily email draft`
 3. Review the generated file in `generated/kit-drafts/`.
 4. Ask for explicit approval before creating, publishing, or sending anything in Kit.
@@ -37,5 +38,6 @@ https://github.com/johntesh8626/ifyl-daily-audio-emails
 
 - Never expose or commit Dropbox, OpenAI, or Kit secrets.
 - Never auto-send a broadcast.
+- Treat generated drafts as `draft_queue` inventory; John chooses the Kit list or destination at send time.
 - Never publish a sequence email unless John has approved that exact operation in the same turn.
 - Preserve this personalization exactly: `{{ subscriber.first_name | default: "there" }}`.

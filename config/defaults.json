@@ -1,9 +1,10 @@
 {
   "brand": "Intelligence for Your Life",
-  "dropboxIncludeRegex": "Intelligence for Your Life emails|IFYL emails|daily email",
+  "dropboxRootPath": "/John Tesh/ifyl-daily-audio-emails",
+  "dropboxIncludeRegex": "Intelligence for Your Life emails|IFYL emails|daily email|daily audio emails|ifyl-daily-audio-emails",
   "defaultGreeting": "Hi {{ subscriber.first_name | default: \"there\" }},",
   "defaultSignoff": "John",
-  "targetMode": "undecided",
+  "targetMode": "draft_queue",
   "utmSource": "convertkit",
   "utmMedium": "email",
   "utmCampaign": "ifyl_daily_audio"

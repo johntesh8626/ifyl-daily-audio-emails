@@ -6,11 +6,11 @@ The intended path is:
 
 ```text
 Dropbox audio folder
-  -> download newest eligible audio
+  -> when John asks for a run, download new eligible audio
   -> transcribe with OpenAI
   -> create the daily IFYL email wrapper
   -> write a Kit-ready markdown draft
-  -> Codex imports/publishes in Kit after approval
+  -> John chooses the Kit list/destination when ready to send
 ```
 
 This mirrors the safer pattern used by the existing audio connector and pain/mobility publishing flow: the deterministic code prepares the content, and the final Kit change is verified before it goes live.
@@ -30,6 +30,10 @@ python -m ifyl_daily_audio_emails.cli draft \
 
 Generated drafts land in `generated/kit-drafts/`.
 
+## Codex Sidebar
+
+Open the project named `ifyl-daily-audio-emails`. Say: "Run the IFYL daily audio email drafts." That means scan Dropbox for new files, create draft inventory, and do not send anything.
+
 ## GitHub Actions
 
 Add these repository secrets before running the workflow:
@@ -37,11 +41,14 @@ Add these repository secrets before running the workflow:
 - `DROPBOX_APP_KEY`
 - `DROPBOX_APP_SECRET`
 - `DROPBOX_REFRESH_TOKEN`
-- `DROPBOX_SHARED_LINK_URL`
 - `OPENAI_API_KEY`
+
+The default Dropbox folder is `/John Tesh/ifyl-daily-audio-emails`. To override it, add a repository variable named `DROPBOX_ROOT_PATH`. A shared-link source is still supported with `DROPBOX_SHARED_LINK_URL`, but the folder you sent is best handled as an authenticated Dropbox path.
 
 The workflow template is in `docs/github-actions/create-daily-email-draft.yml`. Move or copy it into `.github/workflows/` when your GitHub credential has workflow-file permission, then run **Create daily email draft** from the Actions tab.
 
+The recommended first release is manual-on-demand. A two-hour schedule can be added later after the draft style, subject lines, and listen-link destination are proven.
+
 ## Current Safety Boundary
 
-This repo writes Kit-ready drafts. It does not auto-send or auto-publish Kit emails yet. That keeps the top-of-funnel daily list safe while we finalize whether the target should be broadcasts, an evergreen sequence, or both.
+This repo writes Kit-ready draft inventory. It does not auto-send or auto-publish Kit emails. John chooses the list, broadcast, or sequence destination when he is ready to send.

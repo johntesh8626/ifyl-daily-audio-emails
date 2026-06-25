@@ -80,7 +80,7 @@ def build_email_draft(
     transcript_text: str,
     listen_url: str,
     source_audio: str = "",
-    target_mode: str = "undecided",
+    target_mode: str = "draft_queue",
 ) -> EmailDraft:
     normalized_title = title.strip() or "Today's Intelligence for Your Life"
     subject = subject_from_title(normalized_title)
@@ -135,7 +135,8 @@ def render_markdown(
             f'source_audio: "{escape_yaml(source_audio)}"',
             f'listen_url: "{escape_yaml(listen_url)}"',
             f'target_mode: "{escape_yaml(target_mode)}"',
-            'status: "pending_manual_kit_import"',
+            'recipient_decision: "choose_at_send_time"',
+            'status: "ready_for_manual_kit_draft"',
             "---",
             "",
             f"**Subject:** {subject}",

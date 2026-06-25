@@ -1,4 +1,9 @@
-from ifyl_daily_audio_emails.dropbox_client import DropboxFile, filter_audio_files, select_candidate
+from ifyl_daily_audio_emails.dropbox_client import (
+    DropboxFile,
+    filter_audio_files,
+    normalize_dropbox_root_path,
+    select_candidate,
+)
 
 
 def test_filter_audio_files_uses_include_regex_and_extension():
@@ -22,3 +27,9 @@ def test_select_candidate_prefers_newest_when_no_path():
     selected = select_candidate(filter_audio_files(files, "IFYL emails"))
 
     assert selected.id == "new"
+
+
+def test_normalize_dropbox_root_path_accepts_home_url():
+    url = "https://www.dropbox.com/home/John%20Tesh/ifyl-daily-audio-emails"
+
+    assert normalize_dropbox_root_path(url) == "/John Tesh/ifyl-daily-audio-emails"
