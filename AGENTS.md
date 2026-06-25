@@ -18,7 +18,7 @@ Use the same safety posture as the pain/mobility and Deeper Faith workflows:
 2. Do not auto-send Kit broadcasts or publish Kit sequence emails without explicit user approval.
 3. Prefer deterministic scripts for Dropbox scan, download, transcription, and draft generation.
 4. Keep generated Kit drafts in `generated/kit-drafts/`.
-5. Keep the final email format simple: greeting, short John-style setup, listen link, soft continuity line.
+5. Keep the final email format simple: greeting, cleaned transcription as the body, optional listen link, soft continuity line.
 6. Preserve ConvertKit personalization exactly: `{{ subscriber.first_name | default: "there" }}`.
 7. If the user asks to import into Kit, use the installed `kit-sequence-importer` skill for sequence UI work unless a direct Kit API path has been explicitly built and verified.
 8. Default to `draft_queue`: create send-ready draft inventory and leave the final list, broadcast, or sequence choice for John at send time.

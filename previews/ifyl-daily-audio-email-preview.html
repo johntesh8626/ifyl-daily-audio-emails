@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>IFYL Daily Audio Email Preview</title>
+    <title>IFYL Daily Audio Email Preview - How sleep affects brain</title>
     <style>
       :root {
         color-scheme: light;
@@ -16,7 +16,7 @@
         padding: 36px 18px;
       }
       main {
-        max-width: 720px;
+        max-width: 760px;
         margin: 0 auto;
       }
       .meta {
@@ -24,12 +24,31 @@
         font-size: 14px;
         margin-bottom: 14px;
       }
-      .email {
+      .email, .audio-panel {
         background: #ffffff;
         border: 1px solid #d9e2dd;
         border-radius: 8px;
         box-shadow: 0 10px 28px rgba(20, 38, 31, 0.08);
         overflow: hidden;
+      }
+      .audio-panel {
+        padding: 22px 24px;
+        margin-bottom: 18px;
+      }
+      .audio-panel h1 {
+        margin: 0 0 12px;
+        font-size: 20px;
+        line-height: 1.25;
+      }
+      audio {
+        width: 100%;
+        margin-top: 6px;
+      }
+      .source {
+        color: #53625b;
+        font-size: 13px;
+        margin-top: 10px;
+        overflow-wrap: anywhere;
       }
       .subject {
         border-bottom: 1px solid #e1e8e4;
@@ -52,11 +71,6 @@
         font-weight: 700;
         text-decoration: none;
       }
-      .url {
-        color: #3d4a44;
-        font-size: 14px;
-        overflow-wrap: anywhere;
-      }
       .safety {
         margin-top: 18px;
         color: #53625b;
@@ -67,21 +81,25 @@
   </head>
   <body>
     <main>
-      <div class="meta">Kit draft broadcast preview</div>
+      <div class="meta">Real Dropbox audio preview with Cloudflare R2 playback</div>
+      <section class="audio-panel" id="audio-preview" aria-label="Audio preview">
+        <h1>How sleep affects brain</h1>
+        <audio controls preload="metadata" src="https://pub-c9cead7a5f494afaa758ccdbdcf1a4b7.r2.dev/audio/ifyl-daily-audio-emails/how_sleep_affects_brain.mp3"></audio>
+        <div class="source">Source: Dropbox shared folder / how sleep affects brain.mp3 · Hosted on Cloudflare R2 · Duration: about 67 seconds</div>
+      </section>
       <section class="email" aria-label="Email preview">
-        <div class="subject">Subject: The 30-second reset</div>
+        <div class="subject">Subject: How sleep affects brain</div>
         <div class="body">
           <p>Hi [First Name],</p>
           <p>John here.</p>
-          <p>Before you answer a stressful message, give yourself one short pause. Take one breath, let your shoulders drop, and ask, "What response would I be proud of later?" That small pause can keep the message from setting the tone for the rest of your day.</p>
-          <p>I recorded a short version of this too - about 90 seconds - if you'd rather listen in my voice.</p>
-          <p><a class="button" href="#">→ Listen here</a></p>
-          <p class="url">Preview R2 link: https://audio.example.com/audio/ifyl-daily-audio-emails/the_30_second_reset.mp3</p>
+          <p>Going to sleep does not switch off your brain. It turns out sleep actually means our brain is going to work. Now this is according to research from the Johns Hopkins School of Medicine. When our body is resting, numerous systems work automatically to help our muscles, tendons, organs, and other body parts heal and recover from the activities of the day. And our brain jumps into overdrive and works to reset itself. In the study, mice that slept well did three times better at remembering how to navigate a maze they just learned, compared to those that were sleep deprived. It&#x27;s because during sleep, the levels of proteins that recalibrate or reset the connections between brain cells jump by 250%. The researchers believe this is because the brain cells crucial for learning and memory can only store so much new information. After that, the information needs to be organized, needs to be stored away as memories. So when we wake up, our memory is improved and we have more room for new information and we need to be asleep again to store it properly. That&#x27;s how your brain works during sleep.</p>
+          <p>I recorded a short version of this too - about 90 seconds - if you&#x27;d rather listen in my voice.</p>
+          <p><a class="button" href="#audio-preview">→ Listen here</a></p>
           <p>More tomorrow.</p>
           <p>John</p>
         </div>
       </section>
-      <p class="safety">This is a visual sample. Real drafts will use Kit first-name personalization, the actual audio transcript as the email body, and a real Cloudflare R2 audio URL before they can be imported into Kit.</p>
+      <p class="safety">This is a visual/audio preview using the same Cloudflare R2-hosted audio URL that the Kit draft will use.</p>
     </main>
   </body>
 </html>

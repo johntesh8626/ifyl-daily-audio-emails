@@ -86,7 +86,7 @@ Add repository variables:
 - `R2_AUDIO_DOMAIN` or `NEXT_PUBLIC_R2_AUDIO_DOMAIN`
 - `R2_AUDIO_PREFIX` if different from `audio/ifyl-daily-audio-emails`
 
-The workflow template is in `docs/github-actions/create-daily-email-draft.yml`. Move or copy it into `.github/workflows/` when your GitHub credential has workflow-file permission, then run **Create daily email draft** from the Actions tab.
+The workflow template is in `docs/github-actions/create-daily-email-draft.yml`. Activate it by copying it into `.github/workflows/create-daily-email-draft.yml` with a GitHub credential that has `workflow` scope, then run **Create daily email draft** from the Actions tab when the repository secrets and variables above are configured.
 
 The recommended first release is manual-on-demand. A two-hour schedule can be added later after the draft style, subject lines, and listen-link destination are proven.
 

@@ -1,6 +1,7 @@
 .DS_Store
 .env
 .venv/
+.wrangler/
 __pycache__/
 .pytest_cache/
 *.egg-info/
