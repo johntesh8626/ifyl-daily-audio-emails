@@ -8,31 +8,31 @@
       :root {
         color-scheme: light;
         font-family: Arial, Helvetica, sans-serif;
-        background: #f4f1ec;
-        color: #202020;
+        background: #eef3f0;
+        color: #1f2522;
       }
       body {
         margin: 0;
         padding: 36px 18px;
       }
       main {
-        max-width: 680px;
+        max-width: 720px;
         margin: 0 auto;
       }
       .meta {
-        color: #665f57;
+        color: #53625b;
         font-size: 14px;
         margin-bottom: 14px;
       }
       .email {
         background: #ffffff;
-        border: 1px solid #ded8cf;
+        border: 1px solid #d9e2dd;
         border-radius: 8px;
-        box-shadow: 0 10px 28px rgba(39, 31, 23, 0.08);
+        box-shadow: 0 10px 28px rgba(20, 38, 31, 0.08);
         overflow: hidden;
       }
       .subject {
-        border-bottom: 1px solid #e8e1d8;
+        border-bottom: 1px solid #e1e8e4;
         padding: 20px 24px;
         font-size: 18px;
         font-weight: 700;
@@ -42,13 +42,24 @@
         font-size: 17px;
         line-height: 1.58;
       }
-      a {
-        color: #0b6f9e;
+      .button {
+        display: inline-block;
+        margin: 4px 0 2px;
+        padding: 12px 18px;
+        border-radius: 6px;
+        background: #176c5f;
+        color: #ffffff;
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .url {
+        color: #3d4a44;
+        font-size: 14px;
         overflow-wrap: anywhere;
       }
       .safety {
         margin-top: 18px;
-        color: #665f57;
+        color: #53625b;
         font-size: 14px;
         line-height: 1.5;
       }
@@ -58,18 +69,19 @@
     <main>
       <div class="meta">Kit draft broadcast preview</div>
       <section class="email" aria-label="Email preview">
-        <div class="subject">Subject: A quick Intelligence for Your Life audio note</div>
+        <div class="subject">Subject: The 30-second reset</div>
         <div class="body">
           <p>Hi {{ subscriber.first_name | default: "there" }},</p>
           <p>John Tesh here.</p>
-          <p>I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: [short setup generated from the transcript].</p>
-          <p>Take a minute and listen when you have a quiet moment:</p>
-          <p>https://&lt;R2_AUDIO_DOMAIN&gt;/audio/ifyl-daily-audio-emails/&lt;audio-slug&gt;.mp3</p>
+          <p>I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: one short pause before you answer a stressful message can change the whole direction of your day.</p>
+          <p>Take a minute and listen when you have a quiet moment.</p>
+          <p><a class="button" href="#">Listen to today's audio</a></p>
+          <p class="url">Preview R2 link: https://audio.example.com/audio/ifyl-daily-audio-emails/the_30_second_reset.mp3</p>
           <p>I'll be back tomorrow with another short audio note.</p>
           <p>John</p>
         </div>
       </section>
-      <p class="safety">These are created as Kit broadcast drafts, not as a sequence. They are not scheduled or sent. The holding audience is a safety tag until John chooses the real list or segment. Kit import now requires a real R2 listen URL.</p>
+      <p class="safety">This is a visual sample. Real drafts will use the actual transcript and a real Cloudflare R2 audio URL before they can be imported into Kit.</p>
     </main>
   </body>
 </html>

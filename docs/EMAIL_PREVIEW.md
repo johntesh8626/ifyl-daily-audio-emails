@@ -2,7 +2,7 @@
 
 This is the current wrapper shape generated for each Dropbox audio file.
 
-**Subject:** A quick Intelligence for Your Life audio note
+**Subject:** The 30-second reset
 
 **Body:**
 
@@ -10,11 +10,12 @@ Hi {{ subscriber.first_name | default: "there" }},
 
 John Tesh here.
 
-I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: [short setup generated from the transcript].
+I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: one short pause before you answer a stressful message can change the whole direction of your day.
 
-Take a minute and listen when you have a quiet moment:
+Take a minute and listen when you have a quiet moment.
 
-https://<R2_AUDIO_DOMAIN>/audio/ifyl-daily-audio-emails/<audio-slug>.mp3
+Listen to today's audio:
+https://audio.example.com/audio/ifyl-daily-audio-emails/the_30_second_reset.mp3
 
 I'll be back tomorrow with another short audio note.
 
