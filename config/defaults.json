@@ -1,0 +1,10 @@
+{
+  "brand": "Intelligence for Your Life",
+  "dropboxIncludeRegex": "Intelligence for Your Life emails|IFYL emails|daily email",
+  "defaultGreeting": "Hi {{ subscriber.first_name | default: \"there\" }},",
+  "defaultSignoff": "John",
+  "targetMode": "undecided",
+  "utmSource": "convertkit",
+  "utmMedium": "email",
+  "utmCampaign": "ifyl_daily_audio"
+}

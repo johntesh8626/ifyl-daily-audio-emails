@@ -1,0 +1,3 @@
+display_name: IFYL Daily Audio Emails
+short_description: Create Kit-ready daily IFYL email drafts from Dropbox audio.
+default_prompt: Process the newest IFYL daily audio file and prepare a Kit-ready email draft for review.
