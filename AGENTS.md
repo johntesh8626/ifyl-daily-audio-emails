@@ -7,6 +7,7 @@ This repo prepares daily IFYL email drafts from source audio in Dropbox.
 Use the same safety posture as the pain/mobility and Deeper Faith workflows:
 
 - Dropbox is the source inbox.
+- Cloudflare R2 is the public audio host.
 - OpenAI transcription turns audio into text.
 - The wrapper is generated into a local/committed draft artifact.
 - Kit/ConvertKit publishing requires explicit user approval in the same turn.
@@ -21,6 +22,7 @@ Use the same safety posture as the pain/mobility and Deeper Faith workflows:
 6. Preserve ConvertKit personalization exactly: `{{ subscriber.first_name | default: "there" }}`.
 7. If the user asks to import into Kit, use the installed `kit-sequence-importer` skill for sequence UI work unless a direct Kit API path has been explicitly built and verified.
 8. Default to `draft_queue`: create send-ready draft inventory and leave the final list, broadcast, or sequence choice for John at send time.
+9. Do not use Dropbox links as public listen links; upload audio to R2 and use the R2 public URL.
 
 ## Local Commands
 

@@ -16,6 +16,7 @@ from .dropbox_client import (
     select_candidate,
 )
 from .email_builder import build_email_draft, slugify, title_from_filename
+from .r2_audio import build_r2_object_key, build_r2_object_url, upload_audio_to_r2
 from .state import is_processed, load_processed_state, mark_processed, save_processed_state
 from .transcribe import transcribe_audio
 
@@ -211,9 +212,11 @@ def process_candidate(
             model=settings.openai_transcription_model,
         )
     )
-    listen_url = settings.default_listen_url or build_default_listen_url(
-        settings.audio_public_base_url,
-        candidate.name,
+    listen_url = resolve_listen_url(
+        settings=settings,
+        candidate_name=candidate.name,
+        local_audio_path=local_audio_path,
+        dry_run=dry_run,
     )
 
     return create_draft_from_text(
@@ -234,3 +237,27 @@ def build_default_listen_url(audio_public_base_url: str, filename: str) -> str:
     if not base:
         return ""
     return f"{base}/{slugify(Path(filename).stem)}"
+
+
+def resolve_listen_url(
+    *,
+    settings: Settings,
+    candidate_name: str,
+    local_audio_path: Path,
+    dry_run: bool,
+) -> str:
+    if settings.default_listen_url.strip():
+        return settings.default_listen_url.strip()
+
+    if settings.r2_audio_domain.strip():
+        object_key = build_r2_object_key(candidate_name, settings.r2_audio_prefix)
+        if not dry_run:
+            upload_audio_to_r2(
+                local_audio_path=local_audio_path,
+                r2_bucket=settings.r2_bucket,
+                object_key=object_key,
+                wrangler_bin=settings.wrangler_bin,
+            )
+        return build_r2_object_url(settings.r2_audio_domain, object_key)
+
+    return build_default_listen_url(settings.audio_public_base_url, candidate_name)

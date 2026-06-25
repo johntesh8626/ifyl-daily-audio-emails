@@ -14,7 +14,7 @@ I recorded today's Intelligence for Your Life audio because this idea is worth k
 
 Take a minute and listen when you have a quiet moment:
 
-[LISTEN LINK GOES HERE AFTER AUDIO HOSTING IS CONNECTED]
+https://<R2_AUDIO_DOMAIN>/audio/ifyl-daily-audio-emails/<audio-slug>.mp3
 
 I'll be back tomorrow with another short audio note.
 
@@ -27,4 +27,4 @@ John
 - `public` is false, so it is not published as a web post.
 - The default safety audience is the holding tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`.
 - John chooses the real list/tag/segment when he is ready to send.
-- Do not create Kit drafts until the listen URL points to a real hosted audio page or file.
+- Do not create Kit drafts until the listen URL points to a real R2-hosted audio page or file.

@@ -29,11 +29,12 @@ https://github.com/johntesh8626/ifyl-daily-audio-emails
    - Dropbox run for all new files: `python -m ifyl_daily_audio_emails.cli run-pending`
    - Exact Dropbox file run: `python -m ifyl_daily_audio_emails.cli run-once --dropbox-path <path>`
    - GitHub Action: `Create daily email draft`
-3. Review the generated file in `generated/kit-drafts/`.
-4. Preview Kit draft broadcast creation with `python -m ifyl_daily_audio_emails.cli kit-sync-drafts`.
-5. Ask for explicit approval before running `python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply`.
-6. If importing into a Kit sequence, use the existing `kit-sequence-importer` skill.
-7. If creating a Kit broadcast directly in the browser, verify the exact recipient segment/tag, subject, body, and send/schedule state with John before making changes.
+3. Confirm the audio was uploaded to Cloudflare R2 and the draft listen URL is an R2 public URL, not Dropbox.
+4. Review the generated file in `generated/kit-drafts/`.
+5. Preview Kit draft broadcast creation with `python -m ifyl_daily_audio_emails.cli kit-sync-drafts`.
+6. Ask for explicit approval before running `python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply`.
+7. If importing into a Kit sequence, use the existing `kit-sequence-importer` skill.
+8. If creating a Kit broadcast directly in the browser, verify the exact recipient segment/tag, subject, body, and send/schedule state with John before making changes.
 
 ## Safety
 
@@ -41,5 +42,6 @@ https://github.com/johntesh8626/ifyl-daily-audio-emails
 - Never auto-send a broadcast.
 - Treat generated drafts as `draft_queue` inventory; John chooses the Kit list or destination at send time.
 - Kit API-created drafts should use the holding tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`.
+- Public listen links should be Cloudflare R2 URLs.
 - Never publish a sequence email unless John has approved that exact operation in the same turn.
 - Preserve this personalization exactly: `{{ subscriber.first_name | default: "there" }}`.

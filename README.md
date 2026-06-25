@@ -7,6 +7,7 @@ The intended path is:
 ```text
 Dropbox audio folder
   -> when John asks for a run, download new eligible audio
+  -> upload the audio to Cloudflare R2 for public delivery
   -> transcribe with OpenAI
   -> create the daily IFYL email wrapper
   -> write a Kit-ready markdown draft
@@ -51,6 +52,18 @@ python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply
 
 Without `--apply`, the command only previews what would be created. With `--apply`, it creates Kit broadcast drafts using `KIT_API_KEY` or `CONVERTKIT_API_KEY`. Drafts are assigned to the safety tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`, remain unscheduled, and are not published as web posts. The apply step refuses drafts that still have a missing listen URL.
 
+## Audio Hosting
+
+This mirrors the pain/mobility audio flow: Dropbox is the intake folder, and Cloudflare R2 is the public audio host.
+
+Set:
+
+- `R2_AUDIO_DOMAIN` or `NEXT_PUBLIC_R2_AUDIO_DOMAIN`
+- `R2_AUDIO_PREFIX`, default `audio/ifyl-daily-audio-emails`
+- `R2_BUCKET`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
+
 ## GitHub Actions
 
 Add these repository secrets before running the workflow:
@@ -59,8 +72,16 @@ Add these repository secrets before running the workflow:
 - `DROPBOX_APP_SECRET`
 - `DROPBOX_REFRESH_TOKEN`
 - `OPENAI_API_KEY`
+- `R2_BUCKET`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
 
 The default Dropbox folder is `/John Tesh/ifyl-daily-audio-emails`. To override it, add a repository variable named `DROPBOX_ROOT_PATH`. A shared-link source is still supported with `DROPBOX_SHARED_LINK_URL`, but the folder you sent is best handled as an authenticated Dropbox path.
+
+Add repository variables:
+
+- `R2_AUDIO_DOMAIN` or `NEXT_PUBLIC_R2_AUDIO_DOMAIN`
+- `R2_AUDIO_PREFIX` if different from `audio/ifyl-daily-audio-emails`
 
 The workflow template is in `docs/github-actions/create-daily-email-draft.yml`. Move or copy it into `.github/workflows/` when your GitHub credential has workflow-file permission, then run **Create daily email draft** from the Actions tab.
 

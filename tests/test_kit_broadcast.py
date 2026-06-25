@@ -14,7 +14,7 @@ def test_parse_kit_draft_and_build_safe_broadcast_payload(tmp_path: Path):
     result = create_draft_from_text(
         title="Better sleep tonight",
         transcript_text="John Tesh here. Morning light can help your body know when to sleep later tonight.",
-        listen_url="https://tesh.com/listen/better-sleep",
+        listen_url="https://audio.example.com/listen/better-sleep",
         output_dir=tmp_path,
         source_audio="/John Tesh/ifyl-daily-audio-emails/better-sleep.mp3",
     )
@@ -30,12 +30,12 @@ def test_parse_kit_draft_and_build_safe_broadcast_payload(tmp_path: Path):
 
 
 def test_body_to_html_preserves_paragraphs_and_links():
-    body = "Hi there,\n\nListen now:\nhttps://tesh.com/listen/today\n\nJohn"
+    body = "Hi there,\n\nListen now:\nhttps://audio.example.com/listen/today\n\nJohn"
 
     html = body_to_html(body)
 
     assert "<p>Hi there,</p>" in html
-    assert '<a href="https://tesh.com/listen/today">https://tesh.com/listen/today</a>' in html
+    assert '<a href="https://audio.example.com/listen/today">https://audio.example.com/listen/today</a>' in html
     assert "<p>John</p>" in html
 
 

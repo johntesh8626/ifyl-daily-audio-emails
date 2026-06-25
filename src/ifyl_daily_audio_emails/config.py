@@ -22,6 +22,10 @@ class Settings:
     openai_transcription_model: str
     audio_public_base_url: str
     default_listen_url: str
+    r2_audio_domain: str
+    r2_audio_prefix: str
+    r2_bucket: str
+    wrangler_bin: str
     kit_target_mode: str
     kit_api_key: str
     kit_draft_holding_tag: str
@@ -64,6 +68,13 @@ def load_settings(*, dotenv_path: str | Path = ".env") -> Settings:
         openai_transcription_model=os.getenv("OPENAI_TRANSCRIPTION_MODEL", "gpt-4o-transcribe"),
         audio_public_base_url=os.getenv("AUDIO_PUBLIC_BASE_URL", ""),
         default_listen_url=os.getenv("DEFAULT_LISTEN_URL", ""),
+        r2_audio_domain=os.getenv(
+            "R2_AUDIO_DOMAIN",
+            os.getenv("NEXT_PUBLIC_R2_AUDIO_DOMAIN", str(defaults.get("r2AudioDomain", ""))),
+        ),
+        r2_audio_prefix=os.getenv("R2_AUDIO_PREFIX", str(defaults.get("r2AudioPrefix", ""))),
+        r2_bucket=os.getenv("R2_BUCKET", ""),
+        wrangler_bin=os.getenv("WRANGLER_BIN", "wrangler"),
         kit_target_mode=os.getenv("KIT_TARGET_MODE", str(defaults.get("targetMode", "draft_queue"))),
         kit_api_key=os.getenv("KIT_API_KEY", os.getenv("CONVERTKIT_API_KEY", "")),
         kit_draft_holding_tag=os.getenv(

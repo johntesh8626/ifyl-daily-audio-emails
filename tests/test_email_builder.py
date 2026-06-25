@@ -18,7 +18,7 @@ def test_subject_from_title_is_concise():
 
 
 def test_add_utm_params_preserves_existing_query():
-    url = add_utm_params("https://tesh.com/listen/today?x=1", campaign="daily", content="clip")
+    url = add_utm_params("https://audio.example.com/listen/today?x=1", campaign="daily", content="clip")
 
     assert "x=1&" in url
     assert "utm_campaign=daily" in url
@@ -29,7 +29,7 @@ def test_build_email_draft_preserves_convertkit_personalization():
     draft = build_email_draft(
         title="Better sleep tonight",
         transcript_text="John Tesh here. Morning light can help your body know when to sleep later.",
-        listen_url="https://tesh.com/listen/better-sleep",
+        listen_url="https://audio.example.com/listen/better-sleep",
         source_audio="/Intelligence for Your Life emails/better sleep.mp3",
         target_mode="broadcast",
     )

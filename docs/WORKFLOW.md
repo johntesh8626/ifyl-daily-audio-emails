@@ -28,7 +28,7 @@ Use the sidebar project named `ifyl-daily-audio-emails`. The command phrase is:
 Run the IFYL daily audio email drafts.
 ```
 
-That command means "scan Dropbox for new audio and prepare drafts," not "send an email."
+That command means "scan Dropbox for new audio, upload it to R2, and prepare drafts," not "send an email."
 
 ## Preview
 
@@ -55,10 +55,12 @@ Each generated draft contains:
 First release uses manual approval:
 
 1. John asks for a run, or manually starts the GitHub Action.
-2. New files are transcribed and wrapped as drafts in `generated/kit-drafts/`.
-3. `generated/processed-dropbox-files.json` prevents duplicate drafts on the next run.
-4. John chooses which draft to send and which Kit list/destination should receive it.
-5. Codex imports into Kit only after John approves that action.
+2. New audio is downloaded from Dropbox and uploaded to Cloudflare R2.
+3. The R2 public URL becomes the email listen link.
+4. New files are transcribed and wrapped as drafts in `generated/kit-drafts/`.
+5. `generated/processed-dropbox-files.json` prevents duplicate drafts on the next run.
+6. John chooses which draft to send and which Kit list/destination should receive it.
+7. Codex imports into Kit only after John approves that action.
 
 Do not auto-send to the live daily list. The system builds draft inventory only.
 
@@ -79,13 +81,31 @@ Safety defaults:
 - The apply step refuses drafts that still have a missing listen URL.
 - John chooses the real list, tag, or segment inside Kit when he is ready to send.
 
+## Audio Hosting
+
+Use the same Cloudflare R2 pattern as the pain/mobility audio:
+
+```text
+Dropbox source audio
+  -> Wrangler upload to R2 bucket
+  -> https://<R2_AUDIO_DOMAIN>/audio/ifyl-daily-audio-emails/<slug>.mp3
+  -> Kit draft email listen link
+```
+
+Required settings:
+
+- `R2_AUDIO_DOMAIN` or `NEXT_PUBLIC_R2_AUDIO_DOMAIN`
+- `R2_AUDIO_PREFIX`, default `audio/ifyl-daily-audio-emails`
+- `R2_BUCKET`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
+
 ## Optional Later Automation
 
 After a few manual runs look right, the GitHub Action can add a cron schedule such as `0 */2 * * *` to check Dropbox every two hours. That should stay disabled during the first validation phase.
 
 ## Open Product Decisions
 
-- Where should the audio be hosted for the listen link?
 - Should the email link to an audio landing page or direct audio?
 - Should weekend emails be skipped?
 - Should drafts be reviewed every day or batched weekly before Kit import?
