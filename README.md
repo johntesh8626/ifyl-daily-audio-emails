@@ -30,9 +30,26 @@ python -m ifyl_daily_audio_emails.cli draft \
 
 Generated drafts land in `generated/kit-drafts/`.
 
+To preview the current email shape, open:
+
+```text
+previews/ifyl-daily-audio-email-preview.html
+```
+
 ## Codex Sidebar
 
 Open the project named `ifyl-daily-audio-emails`. Say: "Run the IFYL daily audio email drafts." That means scan Dropbox for new files, create draft inventory, and do not send anything.
+
+## Kit Draft Broadcasts
+
+Generated markdown drafts can be turned into Kit broadcast drafts:
+
+```bash
+python -m ifyl_daily_audio_emails.cli kit-sync-drafts
+python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply
+```
+
+Without `--apply`, the command only previews what would be created. With `--apply`, it creates Kit broadcast drafts using `KIT_API_KEY` or `CONVERTKIT_API_KEY`. Drafts are assigned to the safety tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`, remain unscheduled, and are not published as web posts.
 
 ## GitHub Actions
 

@@ -30,14 +30,16 @@ https://github.com/johntesh8626/ifyl-daily-audio-emails
    - Exact Dropbox file run: `python -m ifyl_daily_audio_emails.cli run-once --dropbox-path <path>`
    - GitHub Action: `Create daily email draft`
 3. Review the generated file in `generated/kit-drafts/`.
-4. Ask for explicit approval before creating, publishing, or sending anything in Kit.
-5. If importing into a Kit sequence, use the existing `kit-sequence-importer` skill.
-6. If creating a Kit broadcast, verify the exact recipient segment/tag, subject, body, and send/schedule state with John before making changes.
+4. Preview Kit draft broadcast creation with `python -m ifyl_daily_audio_emails.cli kit-sync-drafts`.
+5. Ask for explicit approval before running `python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply`.
+6. If importing into a Kit sequence, use the existing `kit-sequence-importer` skill.
+7. If creating a Kit broadcast directly in the browser, verify the exact recipient segment/tag, subject, body, and send/schedule state with John before making changes.
 
 ## Safety
 
 - Never expose or commit Dropbox, OpenAI, or Kit secrets.
 - Never auto-send a broadcast.
 - Treat generated drafts as `draft_queue` inventory; John chooses the Kit list or destination at send time.
+- Kit API-created drafts should use the holding tag `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`.
 - Never publish a sequence email unless John has approved that exact operation in the same turn.
 - Preserve this personalization exactly: `{{ subscriber.first_name | default: "there" }}`.

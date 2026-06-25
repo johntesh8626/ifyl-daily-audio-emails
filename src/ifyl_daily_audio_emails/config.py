@@ -23,6 +23,8 @@ class Settings:
     audio_public_base_url: str
     default_listen_url: str
     kit_target_mode: str
+    kit_api_key: str
+    kit_draft_holding_tag: str
 
 
 def load_defaults() -> dict:
@@ -63,6 +65,11 @@ def load_settings(*, dotenv_path: str | Path = ".env") -> Settings:
         audio_public_base_url=os.getenv("AUDIO_PUBLIC_BASE_URL", ""),
         default_listen_url=os.getenv("DEFAULT_LISTEN_URL", ""),
         kit_target_mode=os.getenv("KIT_TARGET_MODE", str(defaults.get("targetMode", "draft_queue"))),
+        kit_api_key=os.getenv("KIT_API_KEY", os.getenv("CONVERTKIT_API_KEY", "")),
+        kit_draft_holding_tag=os.getenv(
+            "KIT_DRAFT_HOLDING_TAG",
+            str(defaults.get("kitDraftHoldingTag", "SYSTEM - IFYL Daily Audio Drafts - Do Not Send")),
+        ),
     )
 
 

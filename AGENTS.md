@@ -29,5 +29,6 @@ pip install -e ".[dev]"
 python -m ifyl_daily_audio_emails.cli draft --title "Example" --transcript-text "..." --listen-url "https://example.com"
 python -m ifyl_daily_audio_emails.cli run-once --dry-run
 python -m ifyl_daily_audio_emails.cli run-pending --dry-run
+python -m ifyl_daily_audio_emails.cli kit-sync-drafts
 pytest
 ```

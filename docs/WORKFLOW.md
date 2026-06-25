@@ -30,6 +30,14 @@ Run the IFYL daily audio email drafts.
 
 That command means "scan Dropbox for new audio and prepare drafts," not "send an email."
 
+## Preview
+
+Open this local file to see the current email wrapper:
+
+```text
+previews/ifyl-daily-audio-email-preview.html
+```
+
 ## Draft Format
 
 Each generated draft contains:
@@ -53,6 +61,22 @@ First release uses manual approval:
 5. Codex imports into Kit only after John approves that action.
 
 Do not auto-send to the live daily list. The system builds draft inventory only.
+
+## Kit Draft Broadcasts
+
+The Kit step creates broadcast drafts, not an automated sequence:
+
+```bash
+python -m ifyl_daily_audio_emails.cli kit-sync-drafts
+python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply
+```
+
+Safety defaults:
+
+- `send_at` is null, so the broadcast is not scheduled.
+- `public` is false, so the draft is not published as a newsletter web post.
+- The default recipient filter is a holding tag named `SYSTEM - IFYL Daily Audio Drafts - Do Not Send`.
+- John chooses the real list, tag, or segment inside Kit when he is ready to send.
 
 ## Optional Later Automation
 

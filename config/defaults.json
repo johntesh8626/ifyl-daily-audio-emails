@@ -5,6 +5,7 @@
   "defaultGreeting": "Hi {{ subscriber.first_name | default: \"there\" }},",
   "defaultSignoff": "John",
   "targetMode": "draft_queue",
+  "kitDraftHoldingTag": "SYSTEM - IFYL Daily Audio Drafts - Do Not Send",
   "utmSource": "convertkit",
   "utmMedium": "email",
   "utmCampaign": "ifyl_daily_audio"
