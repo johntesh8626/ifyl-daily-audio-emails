@@ -1,6 +1,6 @@
 {
   "brand": "Intelligence for Your Life",
-  "dropboxRootPath": "/John Tesh/ifyl-daily-audio-emails",
+  "dropboxRootPath": "/__DROPBOX FOR ASK JOHN TESH/ifyl-daily-audio-emails",
   "dropboxIncludeRegex": "Intelligence for Your Life emails|IFYL emails|daily email|daily audio emails|ifyl-daily-audio-emails",
   "defaultGreeting": "Hi {{ subscriber.first_name | default: \"there\" }},",
   "defaultSignoff": "John",

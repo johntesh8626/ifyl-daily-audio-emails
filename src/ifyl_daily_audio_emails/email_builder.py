@@ -39,15 +39,27 @@ def subject_from_title(title: str) -> str:
 def transcript_as_email_body(transcript_text: str) -> str:
     text = strip_host_intro(re.sub(r"\s+", " ", transcript_text).strip())
     if text:
-        return text
+        return uppercase_first_letter(text)
     return "I wanted to pass along one short Intelligence for Your Life idea today."
 
 
 def strip_host_intro(text: str) -> str:
-    intro_pattern = r"^(?:hi,?\s+)?(?:i'?m\s+)?john(?:\s+tesh)?\s+here\.?\s*"
-    while re.match(intro_pattern, text, flags=re.IGNORECASE):
-        text = re.sub(intro_pattern, "", text, count=1, flags=re.IGNORECASE)
+    intro_patterns = [
+        r"^(?:hi,?\s+)?(?:i'?m\s+)?john(?:\s+tesh)?\s+here\.?\s*",
+        r"^john\s+tesh\s+with\s+you,?\s*(?:and\s+i'?m\s+here\s+to\s+tell\s+you,?\s*)?",
+    ]
+    stripped = True
+    while stripped:
+        stripped = False
+        for pattern in intro_patterns:
+            if re.match(pattern, text, flags=re.IGNORECASE):
+                text = re.sub(pattern, "", text, count=1, flags=re.IGNORECASE)
+                stripped = True
     return text.strip()
+
+
+def uppercase_first_letter(text: str) -> str:
+    return re.sub(r"[A-Za-z]", lambda match: match.group(0).upper(), text, count=1)
 
 
 def add_utm_params(url: str, *, campaign: str, content: str = "listen_link") -> str:

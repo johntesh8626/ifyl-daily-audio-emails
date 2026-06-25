@@ -79,7 +79,7 @@ Add these repository secrets before running the workflow:
 - `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_API_TOKEN`
 
-The default Dropbox folder is `/John Tesh/ifyl-daily-audio-emails`. To override it, add a repository variable named `DROPBOX_ROOT_PATH`. A shared-link source is still supported with `DROPBOX_SHARED_LINK_URL`, but the folder you sent is best handled as an authenticated Dropbox path.
+The default Dropbox folder is `/__DROPBOX FOR ASK JOHN TESH/ifyl-daily-audio-emails`. To override it, add a repository variable named `DROPBOX_ROOT_PATH`. A shared-link source is still supported with `DROPBOX_SHARED_LINK_URL`, but the production workflow is best handled as an authenticated Dropbox path.
 
 Add repository variables:
 

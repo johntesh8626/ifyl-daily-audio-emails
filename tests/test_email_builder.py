@@ -56,3 +56,11 @@ def test_transcript_as_email_body_uses_full_clean_transcript():
 
     assert body.startswith("First thought")
     assert "Fifth thought from the audio." in body
+
+
+def test_transcript_as_email_body_removes_john_tesh_with_you_intro():
+    body = transcript_as_email_body(
+        "John Tesh with you, and I'm here to tell you, going to sleep does not switch off your brain."
+    )
+
+    assert body == "Going to sleep does not switch off your brain."

@@ -9,14 +9,10 @@ Send daily John Tesh voice emails that train the audience to open, listen, and e
 Use this Dropbox folder:
 
 ```text
-/John Tesh/ifyl-daily-audio-emails
+/__DROPBOX FOR ASK JOHN TESH/ifyl-daily-audio-emails
 ```
 
-The Dropbox browser URL John sent maps to that authenticated folder path:
-
-```text
-https://www.dropbox.com/home/John%20Tesh/ifyl-daily-audio-emails
-```
+John can also send a Dropbox shared folder link for one-off previews, but the permanent cloud workflow should use the authenticated Dropbox path above.
 
 The pipeline also still recognizes folder names like `Intelligence for Your Life emails`, `IFYL emails`, or `daily email`.
 
