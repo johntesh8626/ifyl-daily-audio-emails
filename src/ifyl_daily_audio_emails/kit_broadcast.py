@@ -15,6 +15,8 @@ DEFAULT_KIT_BROADCAST_STATE_PATH = "generated/kit-broadcast-drafts.json"
 DEFAULT_HOLDING_TAG = "SYSTEM - IFYL Daily Audio Drafts - Do Not Send"
 REQUEST_TIMEOUT_SECONDS = 30
 PLACEHOLDER_LISTEN_TEXT = "[ADD LISTEN URL]"
+KIT_FIRST_NAME_TOKEN = '{{ subscriber.first_name | default: "there" }}'
+ESCAPED_KIT_FIRST_NAME_TOKEN = html.escape(KIT_FIRST_NAME_TOKEN)
 
 
 @dataclass(frozen=True)
@@ -101,19 +103,27 @@ def body_to_html(body: str) -> str:
 
 def paragraph_to_html(paragraph: str) -> str:
     lines = [line.strip() for line in paragraph.splitlines()]
+    if len(lines) == 2 and re.fullmatch(r"https?://\S+", lines[1]) and "listen here" in lines[0].lower():
+        return f'<a href="{html.escape(lines[1], quote=True)}">{escape_body_text(lines[0])}</a>'
+
     rendered_lines = []
     for line in lines:
         if re.fullmatch(r"https?://\S+", line):
-            rendered_lines.append(f'<a href="{html.escape(line, quote=True)}">{html.escape(line)}</a>')
+            rendered_lines.append(f'<a href="{html.escape(line, quote=True)}">{escape_body_text(line)}</a>')
         else:
-            rendered_lines.append(html.escape(line))
+            rendered_lines.append(escape_body_text(line))
     return "<br>".join(rendered_lines)
+
+
+def escape_body_text(value: str) -> str:
+    escaped = html.escape(value)
+    return escaped.replace(ESCAPED_KIT_FIRST_NAME_TOKEN, KIT_FIRST_NAME_TOKEN)
 
 
 def build_preview_text(body: str, limit: int = 140) -> str:
     text = re.sub(r"\s+", " ", body).strip()
     text = re.sub(r"^Hi \{\{ subscriber\.first_name \| default: \"there\" \}\},\s*", "", text)
-    text = re.sub(r"^John Tesh here\.\s*", "", text)
+    text = re.sub(r"^John(?: Tesh)? here\.\s*", "", text)
     return text[: limit - 3].rstrip() + "..." if len(text) > limit else text
 
 

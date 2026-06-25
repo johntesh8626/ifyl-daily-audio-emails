@@ -36,16 +36,18 @@ def subject_from_title(title: str) -> str:
     return clean[:55].rstrip() + "..."
 
 
-def summarize_for_setup(transcript_text: str) -> str:
-    text = re.sub(r"\s+", " ", transcript_text).strip()
-    sentences = re.split(r"(?<=[.!?])\s+", text)
-    for sentence in sentences:
-        sentence = sentence.strip()
-        if 55 <= len(sentence) <= 190:
-            return sentence
-    if sentences and sentences[0].strip():
-        return sentences[0].strip()[:190].rstrip()
-    return "I have a short audio thought for you today."
+def transcript_as_email_body(transcript_text: str) -> str:
+    text = strip_host_intro(re.sub(r"\s+", " ", transcript_text).strip())
+    if text:
+        return text
+    return "I wanted to pass along one short Intelligence for Your Life idea today."
+
+
+def strip_host_intro(text: str) -> str:
+    intro_pattern = r"^(?:hi,?\s+)?(?:i'?m\s+)?john(?:\s+tesh)?\s+here\.?\s*"
+    while re.match(intro_pattern, text, flags=re.IGNORECASE):
+        text = re.sub(intro_pattern, "", text, count=1, flags=re.IGNORECASE)
+    return text.strip()
 
 
 def add_utm_params(url: str, *, campaign: str, content: str = "listen_link") -> str:
@@ -89,15 +91,16 @@ def build_email_draft(
         campaign="ifyl_daily_audio",
         content=slugify(normalized_title),
     )
-    setup = summarize_for_setup(transcript_text)
+    email_body = transcript_as_email_body(transcript_text)
+    listen_target = tracked_url or "[ADD LISTEN URL]"
     body = "\n\n".join(
         [
             GREETING,
-            "John Tesh here.",
-            f"I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: {setup}",
-            "Take a minute and listen when you have a quiet moment:",
-            tracked_url or "[ADD LISTEN URL]",
-            "I'll be back tomorrow with another short audio note.",
+            "John here.",
+            email_body,
+            "I recorded a short version of this too - about 90 seconds - if you'd rather listen in my voice.",
+            f"→ Listen here\n{listen_target}",
+            "More tomorrow.",
             "John",
         ]
     )

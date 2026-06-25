@@ -2,6 +2,7 @@ from ifyl_daily_audio_emails.email_builder import (
     add_utm_params,
     build_email_draft,
     subject_from_title,
+    transcript_as_email_body,
     title_from_filename,
 )
 
@@ -28,13 +29,30 @@ def test_add_utm_params_preserves_existing_query():
 def test_build_email_draft_preserves_convertkit_personalization():
     draft = build_email_draft(
         title="Better sleep tonight",
-        transcript_text="John Tesh here. Morning light can help your body know when to sleep later.",
+        transcript_text=(
+            "John Tesh here. Morning light can help your body know when to sleep later. "
+            "Try getting outside for a few minutes before you check your phone."
+        ),
         listen_url="https://audio.example.com/listen/better-sleep",
         source_audio="/Intelligence for Your Life emails/better sleep.mp3",
         target_mode="broadcast",
     )
 
     assert '{{ subscriber.first_name | default: "there" }}' in draft.body
-    assert "John Tesh here." in draft.body
+    assert "John here." in draft.body
+    assert "Morning light can help your body know when to sleep later." in draft.body
+    assert "Try getting outside for a few minutes before you check your phone." in draft.body
+    assert "John Tesh here." not in draft.body
+    assert "if you'd rather listen in my voice" in draft.body
+    assert "→ Listen here" in draft.body
     assert "utm_source=convertkit" in draft.listen_url
     assert 'target_mode: "broadcast"' in draft.markdown
+
+
+def test_transcript_as_email_body_uses_full_clean_transcript():
+    body = transcript_as_email_body(
+        "John here. First thought from the audio. Second thought from the audio. Third thought from the audio. Fourth thought from the audio. Fifth thought from the audio."
+    )
+
+    assert body.startswith("First thought")
+    assert "Fifth thought from the audio." in body

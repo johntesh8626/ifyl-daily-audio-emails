@@ -43,7 +43,9 @@ previews/ifyl-daily-audio-email-preview.html
 Each generated draft contains:
 
 - Subject
-- ConvertKit-safe body
+- Body copied from the cleaned audio transcription
+- Optional `→ Listen here` link to the R2-hosted audio
+- ConvertKit-safe markdown
 - Source audio path
 - Listen URL
 - Target metadata: `draft_queue`, `broadcast`, or `sequence`

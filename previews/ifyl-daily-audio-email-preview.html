@@ -71,17 +71,17 @@
       <section class="email" aria-label="Email preview">
         <div class="subject">Subject: The 30-second reset</div>
         <div class="body">
-          <p>Hi {{ subscriber.first_name | default: "there" }},</p>
-          <p>John Tesh here.</p>
-          <p>I recorded today's Intelligence for Your Life audio because this idea is worth keeping close: one short pause before you answer a stressful message can change the whole direction of your day.</p>
-          <p>Take a minute and listen when you have a quiet moment.</p>
-          <p><a class="button" href="#">Listen to today's audio</a></p>
+          <p>Hi [First Name],</p>
+          <p>John here.</p>
+          <p>Before you answer a stressful message, give yourself one short pause. Take one breath, let your shoulders drop, and ask, "What response would I be proud of later?" That small pause can keep the message from setting the tone for the rest of your day.</p>
+          <p>I recorded a short version of this too - about 90 seconds - if you'd rather listen in my voice.</p>
+          <p><a class="button" href="#">→ Listen here</a></p>
           <p class="url">Preview R2 link: https://audio.example.com/audio/ifyl-daily-audio-emails/the_30_second_reset.mp3</p>
-          <p>I'll be back tomorrow with another short audio note.</p>
+          <p>More tomorrow.</p>
           <p>John</p>
         </div>
       </section>
-      <p class="safety">This is a visual sample. Real drafts will use the actual transcript and a real Cloudflare R2 audio URL before they can be imported into Kit.</p>
+      <p class="safety">This is a visual sample. Real drafts will use Kit first-name personalization, the actual audio transcript as the email body, and a real Cloudflare R2 audio URL before they can be imported into Kit.</p>
     </main>
   </body>
 </html>

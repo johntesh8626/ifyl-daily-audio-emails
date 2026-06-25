@@ -30,7 +30,7 @@ https://github.com/johntesh8626/ifyl-daily-audio-emails
    - Exact Dropbox file run: `python -m ifyl_daily_audio_emails.cli run-once --dropbox-path <path>`
    - GitHub Action: `Create daily email draft`
 3. Confirm the audio was uploaded to Cloudflare R2 and the draft listen URL is an R2 public URL, not Dropbox.
-4. Review the generated file in `generated/kit-drafts/`.
+4. Review the generated file in `generated/kit-drafts/`; the readable body should come from the cleaned transcription, with audio as an optional listen link.
 5. Preview Kit draft broadcast creation with `python -m ifyl_daily_audio_emails.cli kit-sync-drafts`.
 6. Ask for explicit approval before running `python -m ifyl_daily_audio_emails.cli kit-sync-drafts --apply`.
 7. If importing into a Kit sequence, use the existing `kit-sequence-importer` skill.

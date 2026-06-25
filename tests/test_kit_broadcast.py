@@ -26,6 +26,9 @@ def test_parse_kit_draft_and_build_safe_broadcast_payload(tmp_path: Path):
     assert payload["public"] is False
     assert payload["send_at"] is None
     assert payload["subscriber_filter"][0]["all"][0] == {"type": "tag", "ids": [123]}
+    assert '{{ subscriber.first_name | default: "there" }}' in payload["content"]
+    assert '<a href="https://audio.example.com/listen/better-sleep?utm_source=convertkit' in payload["content"]
+    assert "→ Listen here</a>" in payload["content"]
     assert "utm_source=convertkit" in payload["content"]
 
 

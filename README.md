@@ -9,7 +9,8 @@ Dropbox audio folder
   -> when John asks for a run, download new eligible audio
   -> upload the audio to Cloudflare R2 for public delivery
   -> transcribe with OpenAI
-  -> create the daily IFYL email wrapper
+  -> use the transcription as the daily email body
+  -> add the audio as an optional listen link
   -> write a Kit-ready markdown draft
   -> John chooses the Kit list/destination when ready to send
 ```
@@ -30,6 +31,8 @@ python -m ifyl_daily_audio_emails.cli draft \
 ```
 
 Generated drafts land in `generated/kit-drafts/`.
+
+The generated email keeps a familiar daily-email shape: topic-style subject, first-name greeting, transcript-based body, and a gentle `→ Listen here` option for the R2-hosted audio.
 
 To preview the current email shape, open:
 

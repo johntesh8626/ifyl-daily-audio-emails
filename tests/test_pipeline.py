@@ -18,6 +18,8 @@ def test_create_draft_from_text_writes_markdown(tmp_path: Path):
     assert result.draft_path.exists()
     text = result.draft_path.read_text(encoding="utf-8")
     assert "**Subject:** Use one better question" in text
+    assert "When life feels overwhelming, ask yourself what first step you can take." in text
+    assert "if you'd rather listen in my voice" in text
     assert "ready_for_manual_kit_draft" in text
     assert "choose_at_send_time" in text
     assert "https://audio.example.com/listen/question" in text
